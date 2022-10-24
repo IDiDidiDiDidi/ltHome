@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.LdMaterialMapper">
+    
+    <resultMap type="LdMaterial" id="LdMaterialResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="dosage"    column="dosage"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLdMaterialVo">
+        select id, name, dosage, del_flag, create_by, create_time, update_by, update_time from ld_material
+    </sql>
+
+    <select id="selectLdMaterialList" parameterType="LdMaterial" resultMap="LdMaterialResult">
+        <include refid="selectLdMaterialVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="dosage != null  and dosage != ''"> and dosage = #{dosage}</if>
+        </where>
+    </select>
+    
+    <select id="selectLdMaterialById" parameterType="Long" resultMap="LdMaterialResult">
+        <include refid="selectLdMaterialVo"/>
+        where id = #{id}
+    </select>
+    <select id="getEatMaterial" resultType="com.ruoyi.system.domain.LdMaterial">
+        SELECT
+            lm.*
+        FROM
+            ld_eat_material lem
+                LEFT JOIN ld_material lm ON lem.material_id = lm.id
+        WHERE
+            lem.eat_id = #{id}
+        ORDER BY lm.create_time
+    </select>
+
+    <insert id="insertLdMaterial" parameterType="LdMaterial" useGeneratedKeys="true" keyProperty="id">
+        insert into ld_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="dosage != null">dosage,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="dosage != null">#{dosage},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLdMaterial" parameterType="LdMaterial">
+        update ld_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="dosage != null">dosage = #{dosage},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLdMaterialById" parameterType="Long">
+        delete from ld_material where id = #{id}
+    </delete>
+
+    <delete id="deleteLdMaterialByIds" parameterType="String">
+        delete from ld_material where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

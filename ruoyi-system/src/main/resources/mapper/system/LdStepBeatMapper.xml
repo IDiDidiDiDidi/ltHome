@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.LdStepBeatMapper">
+    
+    <resultMap type="LdStepBeat" id="LdStepBeatResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="imgs"    column="imgs"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLdStepBeatVo">
+        select id, content, imgs, order_num, del_flag, create_by, create_time, update_by, update_time from ld_step_beat
+    </sql>
+
+    <select id="selectLdStepBeatList" parameterType="LdStepBeat" resultMap="LdStepBeatResult">
+        <include refid="selectLdStepBeatVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="imgs != null  and imgs != ''"> and imgs = #{imgs}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectLdStepBeatById" parameterType="Long" resultMap="LdStepBeatResult">
+        <include refid="selectLdStepBeatVo"/>
+        where id = #{id}
+    </select>
+    <select id="getEatStepBeat" resultType="com.ruoyi.system.domain.LdStepBeat">
+        SELECT
+            lsb.*
+        FROM
+            ld_eat_step_beat lesb
+                LEFT JOIN ld_step_beat lsb ON lsb.id = lesb.step_beat_id
+        WHERE lesb.eat_id = #{id}
+        ORDER BY
+            order_num
+    </select>
+
+    <insert id="insertLdStepBeat" parameterType="LdStepBeat" useGeneratedKeys="true" keyProperty="id">
+        insert into ld_step_beat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="content != null">content,</if>
+            <if test="imgs != null">imgs,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="content != null">#{content},</if>
+            <if test="imgs != null">#{imgs},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLdStepBeat" parameterType="LdStepBeat">
+        update ld_step_beat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="imgs != null">imgs = #{imgs},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLdStepBeatById" parameterType="Long">
+        delete from ld_step_beat where id = #{id}
+    </delete>
+
+    <delete id="deleteLdStepBeatByIds" parameterType="String">
+        delete from ld_step_beat where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

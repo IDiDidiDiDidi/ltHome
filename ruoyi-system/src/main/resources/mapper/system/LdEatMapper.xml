@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.LdEatMapper">
+    
+    <resultMap type="LdEat" id="LdEatResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="tag"    column="tag"    />
+        <result property="doItNum"    column="do_it_num"    />
+        <result property="materialId"    column="material_id"    />
+        <result property="stepBeatId"    column="step_beat_id"    />
+        <result property="description"    column="description"    />
+        <result property="displayPicture"    column="display_picture"    />
+        <result property="tips"    column="tips"    />
+        <result property="grade"    column="grade"    />
+        <result property="zan"    column="zan"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLdEatVo">
+        select id, name, tag, do_it_num, material_id, step_beat_id, description, display_picture, tips, grade, zan, status, del_flag, create_by, create_time, update_by, update_time from ld_eat
+    </sql>
+
+    <select id="selectLdEatList" parameterType="LdEat" resultMap="LdEatResult">
+        <include refid="selectLdEatVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="tag != null  and tag != ''"> and tag = #{tag}</if>
+            <if test="doItNum != null "> and do_it_num = #{doItNum}</if>
+            <if test="materialId != null "> and material_id = #{materialId}</if>
+            <if test="stepBeatId != null "> and step_beat_id = #{stepBeatId}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="displayPicture != null  and displayPicture != ''"> and display_picture = #{displayPicture}</if>
+            <if test="tips != null  and tips != ''"> and tips = #{tips}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+            <if test="zan != null "> and zan = #{zan}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectLdEatById" parameterType="Long" resultMap="LdEatResult">
+        <include refid="selectLdEatVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLdEat" parameterType="LdEat" useGeneratedKeys="true" keyProperty="id">
+        insert into ld_eat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="tag != null">tag,</if>
+            <if test="doItNum != null">do_it_num,</if>
+            <if test="materialId != null">material_id,</if>
+            <if test="stepBeatId != null">step_beat_id,</if>
+            <if test="description != null">description,</if>
+            <if test="displayPicture != null">display_picture,</if>
+            <if test="tips != null">tips,</if>
+            <if test="grade != null">grade,</if>
+            <if test="zan != null">zan,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="tag != null">#{tag},</if>
+            <if test="doItNum != null">#{doItNum},</if>
+            <if test="materialId != null">#{materialId},</if>
+            <if test="stepBeatId != null">#{stepBeatId},</if>
+            <if test="description != null">#{description},</if>
+            <if test="displayPicture != null">#{displayPicture},</if>
+            <if test="tips != null">#{tips},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="zan != null">#{zan},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLdEat" parameterType="LdEat">
+        update ld_eat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="tag != null">tag = #{tag},</if>
+            <if test="doItNum != null">do_it_num = #{doItNum},</if>
+            <if test="materialId != null">material_id = #{materialId},</if>
+            <if test="stepBeatId != null">step_beat_id = #{stepBeatId},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="displayPicture != null">display_picture = #{displayPicture},</if>
+            <if test="tips != null">tips = #{tips},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="zan != null">zan = #{zan},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLdEatById" parameterType="Long">
+        delete from ld_eat where id = #{id}
+    </delete>
+
+    <delete id="deleteLdEatByIds" parameterType="String">
+        delete from ld_eat where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
